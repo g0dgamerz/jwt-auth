@@ -16,13 +16,38 @@ namespace POCOApp.Controllers
     {
 
         IUserService _userService;
+ 
 
         public AccountController(IUserService userService)
-        {
+        { 
             _userService = userService;
+
         }
+
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(RegisterRequest model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var arr = await _userService.Register(model);
+            return Ok(model);
+            //var user = new ApplicationUser { UserName = model.Email, INumber = model.INumber };
+            //IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+            //if (result.Succeeded)
+            //{
+            //    return Ok(result);
+            //}
+            //else
+            //{
+            //    return BadRequest(result);
+            //}
+        }
+
+        [AllowAnonymous]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(AuthenticateRequest ar)
         {
             if(!ModelState.IsValid)
@@ -42,6 +67,8 @@ namespace POCOApp.Controllers
 
 
         }
+        
+        
         //// POST: api/account
         //[AllowAnonymous]
         //[HttpPost("login")]

@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using POCOApp.Dependency;
+using POCOApp.Helpers;
 using POCOApp.Services;
 using POCOApp.Services.Interface;
 using System.Text;
@@ -73,6 +74,7 @@ JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("JWT"));
 
 
 var app = builder.Build();
